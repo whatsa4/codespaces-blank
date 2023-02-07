@@ -1,0 +1,79 @@
+{curl -L -G --fail "https://web-backend.scale3production.com/v1/cli/download" --data-urlencode "email=quarezma.999@gmail.com" --data-urlencode "id=s3lukitspdiaippdkvjmlhqyvk" | tar -x
+chmod a+x installcli.sh
+cat << EOF > ./grafana_agent.yml
+server:
+  log_level: info
+metrics:
+  wal_directory: "/var/lib/scale3/grafana-agent"
+  global:
+    scrape_interval: 15s
+    remote_write:
+      - url: https://s3lukitspdiaippdkvjmlhqyvkp.sui.scale3production.com/api/v1/write
+        basic_auth:
+          username: s3lukitspdiaippdkvjmlhqyvk
+          password: s3lukitspdiaippdkvjmlhqyvk
+        headers:
+          tenant_id: s3lukitspdiaippdkvjmlhqyvk
+        queue_config:
+          # Number of samples to buffer per shard before we start dropping them.
+          capacity: 10000
+          batch_send_deadline: 5s
+          # Maximum number of shards,
+        "configurations": [
+        {
+          "name": "Attach by Process ID",
+          "processId": "${command:PickProcess}",
+          "request": "attach",
+          "skipFiles": [
+            "<node_internals>/**"
+          ],
+          "type": "node"
+        },
+        {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+        ],i.e. amount of concurrency.
+          max_shards: 10
+          min_shards: 1
+          # Maximum number of samples per send.
+          max_samples_per_send: 500
+          # Maximum number of samples per send.
+          min_backoff: 1s
+          max_backoff: 15s
+    external_labels:
+      tenant_id: s3lukitspdiaippdkvjmlhqyvk
+      email: quarezma.999@gmail.com
+      hostname: ${HOSTNAME}
+  configs:
+  - name: "Sui"
+    scrape_configs:
+      - job_name: "Sui Metrics"
+        honor_timestamps: false
+        static_configs:
+          - targets: ["localhost:9184"]
+integrations:
+  agent:
+    enabled: false
+  node_exporter:
+    enabled: true
+EOF
+z
+    // Olası öznitelikler hakkında bilgi edinmek için IntelliSense kullanın.
+    // Mevcut özniteliklerin açıklamalarını görüntülemek için üzerine gelin.
+    // Daha fazla bilgi için şu adresi ziyaret edin: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${file}"
+        }
+    ]
+}
